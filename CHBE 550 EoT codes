@@ -101,9 +101,9 @@ def Conversion_ode_catalyst_1 (X,T,eta,y,x):
 #    C= C_0*(1-x[0])
     Epsilon= -1.0
     alpha= -1*(3.5E12)/T
-    X[:,0]= eta*A*np.exp(-1*E_a/(R*T))*SA_BET*(CO_0*(1-x)/(1+Epsilon*x))**2/(y**2)
-    X[:,1]= alpha/(2*y)*(1+(Epsilon*x))
-    dX_dw= [X[:,0],X[:,1]]
+    X[0]= eta*A*np.exp(-1*E_a/(R*T))*SA_BET*(CO_0*(1-x)/(1+Epsilon*x))**2/(y**2)
+    X[1]= alpha/(2*y)*(1+(Epsilon*x))
+    dX_dw= [X[0],X[1]]
     return dX_dw
 #    dC1_dzeta1= x[1]
 #    x[2]= phi**2*x[0]
@@ -117,7 +117,8 @@ y0= np.linspace(0,1,10)
 Eta_value= np.array(Eta)
 Eta_value_1= np.linspace(1,10,100)
 for m in range(len(Eta)):
-    solve_catalyst_ode_1= odeint(Conversion_ode_catalyst_1(X0,temp_range,Eta[m],y0,x0))
+    solve_catalyst_ode_1= odeint(Conversion_ode_catalyst_1(X0,temp_range,Eta[m],y0,x0),X0,y0)
+    
 
 plt.plot(temp_range,solve_catalyst_ode_1[:,0], 'b', label= 'conversion vs temp' )
 plt.plot(particle_size, solve_catalyst_ode_1[:,0], 'g', label= 'conversion vs diameter')
@@ -125,9 +126,9 @@ plt.legend(loc='best')
 plt.xlabel('temperature')
 plt.ylabel('conversion')
 plt.show()
-plt.clf()
-plt.cla()
-plt.close()
+#plt.clf()
+#plt.cla()
+#plt.close()
 #plt.plot(t, sol[:, 0], 'b', label='theta(t)')
 #>>> plt.plot(t, sol[:, 1], 'g', label='omega(t)')
 #>>> plt.legend(loc='best')
@@ -143,21 +144,21 @@ def Conversion_ode_catalyst_2 (X,T,x,eta,y):
     dX_dw= [X[:,0]]
     return dX_dw
 #solving ode for conversion
-solve_ode_catalyst_2(Conversion_ode_catalyst_2(X0,temp_range,X0,x,Eta_value)
+solve_ode_catalyst_2(Conversion_ode_catalyst_2(X0,temp_range,X0,x,Eta_value))
 
      
-#with open(saveFile, 'wb') as csvfile:
-#    writer = csv.writer(csvfile)
-#    writer.writerow([['Temperatures'], ['Particle Size'], ['Effectiveness factor']])
-##    writer.writerow(['Particle Size'])
-##    writer.writerow(['Effectiveness factor'])
-#    for i in range(len(temp_range)):
+with open(saveFile, 'wb') as csvfile:
+    writer = csv.writer(csvfile)
+    writer.writerow([['Temperatures'], ['Particle Size'], ['Effectiveness factor']])
+#    writer.writerow(['Particle Size'])
+#    writer.writerow(['Effectiveness factor'])
+    for i in range(len(temp_range)):
+        for j in range(len(particle_size)):
+#        writer.writerow(['Temperatures'])
+            writer.writerow([temp_range[i], particle_size[j],Eta])
 #        for j in range(len(particle_size)):
-##        writer.writerow(['Temperatures'])
-#            writer.writerow([temp_range[i], particle_size[j],Eta])
-##        for j in range(len(particle_size)):
-##            writer.writerow([particle_size[j]])
-        #writer.writerow([Eta[i,j]])
+#            writer.writerow([particle_size[j]])
+        writer.writerow([Eta[i,j]])
       
      
 #plotting effectiveness factor versus temperature of catalyst surface and particle size
