@@ -1,0 +1,62 @@
+"""
+Created on Wed Jan 17 18:40:19 2018
+
+@author: Joanna
+
+"""
+
+###import of relevant modules
+import numpy as np
+import scipy as sci
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+from scipy.integrate import odeint
+import math as math
+import csv
+from pylab import *
+import os
+import glob as glob
+
+#################################################
+#USER-DEFINED INPUTS
+gen_path= 'C:\Users\Joanna\Desktop'
+specific_file= '\SDS run 1'
+fileExt= '.csv'
+
+##################################################
+
+filepath= gen_path + specific_file
+
+
+def get_image_conc(filepath):
+    ind= fileName.find('mM_')
+    conc= float(fileName[ind])
+    return conc
+
+fileList= glob.glob(filepath+ '*mM*' + fileExt)
+
+csvfiles= []
+csv_files_reading= []
+info= []
+for filename in os.listdir(filepath):
+    csvfiles.append(filename)
+    for i in range(len(csvfiles)):
+        csv_files_reading= filepath + "'/'" + csvfiles[i]
+    for file in range(len(csv_files_reading)):
+        with open(file, 'rb') as csvfile:
+            reader= csv.reader(csvfile, delimiter= ',', quotechar='|')
+            for row in reader:
+                    info.append()
+    
+
+#def get_image_conc(fileName):
+#    ind1 = fileName.find('C=')
+#    ind2 = fileName.find('mM_')
+#    conc = float(fileName[ind1+2:ind2])
+#    return conc
+#
+## Parse user inputs
+#dirName = '../Data/' + folderName + '/' 
+#fileList = glob.glob(dirName + '*H2O*' + imageExtension)
+#saveFile = dirName + 'output.csv'
+#capillaryFile = glob.glob(dirName + '*Capillary*' + imageExtension)
